@@ -28,7 +28,7 @@ app.use("/api/users", user);
 app.use("/api/user-products", userProduct);
 
 // Setup Swagger UI
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument.options));
 
 // Sample GET endpoint
 app.get("/user", (req, res) => {

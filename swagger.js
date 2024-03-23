@@ -11,7 +11,7 @@ exports.options = {
   },
   openapi: "3.0.0",
   info: {
-    version: "1.0.0",
+    version: "3.0.0",
     title: "Products CRUD API",
     description: "Products project app",
     contact: {
@@ -51,13 +51,13 @@ exports.options = {
         description: "Return all users",
         responses: {
           200: {
-            Description: "A list of users",
+            description: "A list of users",
             content: {
               "application/json": {
                 schema: {
                   type: "array",
                   items: {
-                    $ref: "#components/schemas/User",
+                    $ref: "#/components/schemas/User",
                   },
                 },
               },
@@ -66,7 +66,7 @@ exports.options = {
         },
       },
     },
-    "api/users/{username}": {
+    "/api/users/{username}": {
       get: {
         tags: ["Users"],
         parameters: [
@@ -75,15 +75,19 @@ exports.options = {
             in: "path",
             required: true,
             description: "Username of user that we want to find",
-            type: "string",
+            schema: { type: "string" },
           },
         ],
         description: "Get user with specific username",
-        response: {
+        responses: {
           200: {
-            description: "User to find",
-            schema: {
-              $ref: "#/components/schemas/user",
+            description: "User found",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/User",
+                },
+              },
             },
           },
         },

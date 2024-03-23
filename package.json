@@ -16,6 +16,7 @@
     "mogoose": "^0.0.1-security",
     "mongoose": "^8.2.1",
     "mongoose-to-swagger": "^1.5.1",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   }
 }

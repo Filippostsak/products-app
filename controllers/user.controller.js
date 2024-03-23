@@ -16,7 +16,7 @@ exports.findOne = async (req, res) => {
 
   const username = req.params.username;
   try {
-    const result = await User.findOne({ username: username }); // Added 'await' here
+    const result = await User.findOne({ username: username });
     res.status(200).json({ data: result });
   } catch (err) {
     console.log("Problem in reading user, " + err);
