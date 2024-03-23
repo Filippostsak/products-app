@@ -1,7 +1,8 @@
 const User = require("../models/user.model");
 
 exports.findAll = async (req, res) => {
-  console.log("Find all user's products");
+  console.log("Find all users products");
+
   try {
     const result = await User.find({}, { _id: 0, username: 1, products: 1 });
     res.status(200).json({ data: result });
@@ -14,7 +15,8 @@ exports.findAll = async (req, res) => {
 
 exports.findOne = async (req, res) => {
   const username = req.params.username;
-  console.log("Find products for user: , ", username);
+  console.log("Find products for user:", username);
+
   try {
     const result = await User.findOne(
       { username: username },
@@ -31,7 +33,9 @@ exports.findOne = async (req, res) => {
 exports.create = async (req, res) => {
   const username = req.body.username;
   const products = req.body.products;
-  console.log("Inserting products for user ", username);
+
+  console.log("Inserting products for user", username);
+
   try {
     const result = await User.updateOne(
       { username: username },
@@ -45,7 +49,7 @@ exports.create = async (req, res) => {
     console.log("Success insert");
   } catch (err) {
     res.status(400).json({ data: err });
-    console.log("Failed inserting a product");
+    console.log("Failed insert");
   }
 };
 
@@ -53,7 +57,8 @@ exports.update = async (req, res) => {
   const username = req.params.username;
   const _id = req.body.product._id;
   const quantity = req.body.product.quantity;
-  console.log("Update product for username ", username);
+
+  console.log("Update product for username", username);
 
   try {
     const result = await User.updateOne(
@@ -75,7 +80,9 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   const username = req.params.username;
   const _id = req.params.id;
+
   console.log("Delete product");
+
   try {
     const result = await User.updateOne(
       { username: username },
@@ -86,9 +93,9 @@ exports.delete = async (req, res) => {
       }
     );
     res.status(200).json({ data: result });
-    console.log("Deleting a product from a user Successfully");
+    console.log("Success in deleting product", username);
   } catch (err) {
     res.status(400).json({ data: err });
-    console.log("Error in deleting product");
+    console.log("Problem in deleting product", username);
   }
 };

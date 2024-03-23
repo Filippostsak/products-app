@@ -9,13 +9,13 @@ exports.options = {
       Product: m2s(Product),
     },
   },
-  openapi: "3.0.0",
+  openapi: "3.1.0",
   info: {
-    version: "3.0.0",
+    version: "1.0.0",
     title: "Products CRUD API",
-    description: "Products project app",
+    description: "Products project aplication",
     contact: {
-      name: "API support",
+      name: "API Support",
       url: "http://www.example.com",
       email: "support@example.com",
     },
@@ -26,8 +26,8 @@ exports.options = {
       description: "Local Server",
     },
     {
-      url: "http://www.example.com",
-      description: "Production Server",
+      url: "htpp://www.example.com",
+      description: "Testing server",
     },
   ],
   tags: [
@@ -41,7 +41,7 @@ exports.options = {
     },
     {
       name: "Users and Products",
-      description: "API endpoints for Users and their products",
+      description: "API endpoints for users and their products",
     },
   ],
   paths: {
@@ -65,6 +65,50 @@ exports.options = {
           },
         },
       },
+      post: {
+        tags: ["Users"],
+        description: "Create new user",
+        requestBody: {
+          description: "User schema to insert",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  username: { type: "string" },
+                  password: { type: "string" },
+                  name: { type: "string" },
+                  surname: { type: "string" },
+                  email: { type: "string" },
+                  address: {
+                    type: "object",
+                    properties: {
+                      area: { type: "string" },
+                      road: { type: "string" },
+                    },
+                  },
+                  phone: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        type: { type: "string" },
+                        number: { type: "string" },
+                      },
+                    },
+                  },
+                },
+                required: ["username", "password", "email"],
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "New user inserted",
+          },
+        },
+      },
     },
     "/api/users/{username}": {
       get: {
@@ -75,20 +119,88 @@ exports.options = {
             in: "path",
             required: true,
             description: "Username of user that we want to find",
-            schema: { type: "string" },
+            type: "string",
           },
         ],
         description: "Get user with specific username",
         responses: {
           200: {
-            description: "User found",
-            content: {
-              "application/json": {
-                schema: {
-                  $ref: "#/components/schemas/User",
+            description: "User to find",
+            schema: {
+              $ref: "#/components/schemas/User",
+            },
+          },
+        },
+      },
+      patch: {
+        tags: ["Users"],
+        description: "Update user in app",
+        parameters: [
+          {
+            name: "username",
+            in: "path",
+            required: true,
+            description: "Username of user to update",
+            type: "string",
+          },
+        ],
+        requestBody: {
+          description: "User that we update",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  username: { type: "string" },
+                  name: { type: "string" },
+                  surname: { type: "string" },
+                  email: { type: "string" },
+                  address: {
+                    type: "object",
+                    properties: {
+                      area: { type: "string" },
+                      road: { type: "string" },
+                    },
+                  },
+                  phone: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        type: { type: "string" },
+                        number: { type: "string" },
+                      },
+                    },
+                  },
                 },
+                required: ["email"],
               },
             },
+          },
+        },
+        responses: {
+          200: {
+            description: "Update user",
+            schema: {
+              $ref: "#/components/schemas/User",
+            },
+          },
+        },
+      },
+      delete: {
+        tags: ["Users"],
+        description: "Delete a user",
+        parameters: [
+          {
+            name: "username",
+            in: "path",
+            description: "User to delete",
+            type: "string",
+          },
+        ],
+        responses: {
+          200: {
+            description: "Delete a user",
           },
         },
       },
