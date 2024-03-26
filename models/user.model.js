@@ -58,7 +58,7 @@ let userSchema = new Schema(
   },
   {
     collection: "users",
-    timestamps: true, // Defines createdAt and updatedAt fields
+    timestamps: true,
   }
 );
 

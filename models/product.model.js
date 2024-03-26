@@ -10,7 +10,7 @@ let productSchema = new Schema(
     quantity: { type: Number, required: true },
   },
   {
-    collection: "products", // Corrected from 'collation' to 'collection'
+    collection: "products",
     timestamps: true,
   }
 );
