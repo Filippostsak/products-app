@@ -1,1 +1,1 @@
-# products-app
+A nodeJS application. The application is not completed but contains all the necessary back-end in order to work. There is a small implementation of front-end but i will continue the application in the future using React or Angular. Feel free to inspect the back-end code and use parts that you se valuable.
