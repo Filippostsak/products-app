@@ -1,141 +1,63 @@
+const apiUrl = "http://localhost:3000/api/users";
 $(document).ready(function () {
-  $.ajax({
-    url: "http://localhost:3000/api/users",
-    type: "get",
-    dataType: "JSON",
-  }).done(function (response) {
-    // console.log(">>", response);
-    let data = response.data;
-    // let status = response.status;
-
-    if (data.length > 0) {
-      createTbody(data);
-    } else {
-      alert(
-        false,
-        "Πρόβλημα στην αναζήτηση των χρηστών (" + data.message + ")"
-      );
-      // console.log(data);
-    }
-  });
-
-  $(".row")
-    .off("click", ".btnSubmit")
-    .on("click", ".btnSubmit", function () {
-      let username = $("#username").val();
-      let password = $("#password").val();
-      let name = $("#name").val();
-      let surname = $("#surname").val();
-      let email = $("#email").val();
-      let area = $("#area").val();
-      let road = $("#road").val();
-
-      const item = {
-        username: username,
-        password: password,
-        name: name,
-        surname: surname,
-        email: email,
-        area: area,
-        road: road,
-      };
-
-      console.log($(".btnSubmit").val(), item);
-      $.ajax({
-        url: "http://localhost:3000/api/users",
-        type: "post",
-        data: item,
-        dataType: "JSON",
-        // encode: true,
-      }).done(function (response) {
-        // console.log(">>", response);
-
-        let data = response.data;
-        let status = response.status;
-
-        if (status) {
-          console.log(true, "Επιτυχής εισαγωγή του χρήστη");
-          alert(true, "Επιτυχής εισαγωγή του χρήστη");
-          $("#frmUser")[0].reset();
-          window.location.replace("http://localhost:3000/user/find.html");
-        } else {
-          console.log(
-            false,
-            "Πρόβλημα στην εισαγωγή του χρήστη (" + data.message + ")"
-          );
-          alert(
-            false,
-            "Πρόβλημα στην εισαγωγή του χρήστη (" + data.message + ")"
-          );
-          $("#frmUser")[0].reset();
-          // console.log(data.message);
-        }
-      });
-
-      return false;
-    });
+  fetchAndDisplayUsers();
 });
-
-function createTbody(data) {
-  $("#userTable > tbody").empty();
-
-  // console.log("CreateTBody", data);
-  const len = data.length;
-  for (let i = 0; i < len; i++) {
-    let username = data[i].username;
-    let name = data[i].name;
-    let surname = data[i].surname;
-    let email = data[i].email;
-    let address = data[i].address.area + ", " + data[i].address.road;
-    let phone = "";
-    for (let x = 0; x < data[i].phone.length; x++) {
-      phone =
-        phone + data[i].phone[x].type + ":" + data[i].phone[x].number + "<br>";
-    }
-
-    // console.log(username, name);
-
-    let tr_str =
-      "<tr>" +
-      "<td>" +
-      username +
-      "</td>" +
-      "<td>" +
-      name +
-      "</td>" +
-      "<td>" +
-      surname +
-      "</td>" +
-      "<td>" +
-      email +
-      "</td>" +
-      "<td>" +
-      address +
-      "</td>" +
-      "<td>" +
-      phone +
-      "</td>" +
-      "<td>" +
-      "<button class='btnUpdate btn btn-primary' value='" +
-      username +
-      "'>Τροποποίηση</button> " +
-      "<button class='btnDelete btn btn-primary' value='" +
-      username +
-      "'>Διαγραφή</button>" +
-      "</td>" +
-      "</tr>";
-
-    $("#userTable tbody").append(tr_str);
-  }
+function fetchAndDisplayUsers() {
+  $.ajax({
+    url: apiUrl,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      const users = response.data;
+      $("#userTable tbody").empty();
+      users.forEach((user) => {
+        const userAddress = user.address
+          ? `${user.address.area} ${user.address.road}`
+          : "";
+        const userPhone =
+          user.phone && user.phone.length > 0 ? user.phone[0].number : "";
+        const encodedUsername = encodeURIComponent(user.username);
+        const userRow = `
+          <tr id="row-${encodedUsername}">
+            <td>${user.username}</td>
+            <td>${user.name || ""}</td>
+            <td>${user.surname || ""}</td>
+            <td>${user.email}</td>
+            <td>${userAddress}</td>
+            <td>${userPhone}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" onclick="updateUser('${encodedUsername}')">Update</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteUser('${encodedUsername}')">Delete</button>
+            </td>
+          </tr>
+        `;
+        $("#userTable tbody").append(userRow);
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching users:", status, error);
+    },
+  });
 }
+function updateUser(encodedUsername) {
+  window.location.href = `updateForm.html?username=${encodedUsername}`;
+}
+function deleteUser(encodedUsername) {
+  const username = decodeURIComponent(encodedUsername);
+  console.log("Delete user with username:", username);
 
-function alert(status, message) {
-  if (status) {
-    $(".alert").addClass("alert-success");
-    $(".alert").removeClass("alert-danger");
-  } else {
-    $(".alert").addClass("alert-danger");
-    $(".alert").removeClass("alert-success");
+  if (!confirm(`Are you sure you want to delete the user ${username}?`)) {
+    return;
   }
-  $(".alert").html(message);
+  $.ajax({
+    url: `${apiUrl}/${encodedUsername}`,
+    type: "DELETE",
+    success: function (response) {
+      $(`#row-${encodedUsername}`).remove();
+      console.log("User deleted successfully:", username);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error deleting user:", status, error);
+    },
+  });
 }

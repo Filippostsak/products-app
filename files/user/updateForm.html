@@ -16,9 +16,11 @@
     <title>Users and Products App</title>
   </head>
   <body>
+    <!-- menu -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3">
       <div class="container-lg">
         <a class="navbar-brand me-auto" href="../index.html">myEshop</a>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -30,6 +32,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div
           class="collapse navbar-collapse justify-content-center"
           id="navbarNavDropdown"
@@ -58,6 +61,7 @@
                 </li>
               </ul>
             </li>
+
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -85,6 +89,7 @@
                 </li>
               </ul>
             </li>
+
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -97,6 +102,7 @@
                 Αγορά προϊόντων
               </a>
             </li>
+
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -110,6 +116,7 @@
               </a>
             </li>
           </ul>
+
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="#">Είσοδος</a>
@@ -118,130 +125,88 @@
         </div>
       </div>
     </nav>
-    <div class="container mt-5 pt-5">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-          <h2 class="text-center mb-4">Χρήστες Εφαρμογής</h2>
-          <div class="alert" role="alert"></div>
-          <form id="frmUser">
-            <div class="mb-3">
-              <label for="username" class="form-label">Όνομα χρήστη</label>
-              <input
-                placeholder="username"
-                type="text"
-                class="form-control"
-                id="username"
-                pattern="[a-z0-9]{1,20}"
-                title="Username must be lowercase and up to 20 characters without spaces."
-                required
-              />
-              <div id="usernameHelp" class="form-text">
-                Εισάγεται το επιθυμητό username
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Κωδικός</label>
-              <input
-                placeholder="password"
-                type="password"
-                class="form-control"
-                id="password"
-                minlength="6"
-                maxlength="20"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="name" class="form-label">Όνομα</label>
-              <input
-                placeholder="firstname"
-                type="text"
-                class="form-control"
-                id="name"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="surname" class="form-label">Επίθετο</label>
-              <input
-                placeholder="lastname"
-                type="text"
-                class="form-control"
-                id="surname"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                placeholder="email address"
-                type="email"
-                class="form-control"
-                id="email"
-                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="mobilePhone" class="form-label"
-                >Αριθμός κινητού</label
-              >
-              <input
-                type="tel"
-                class="form-control"
-                id="mobilePhone"
-                pattern="\d{10}"
-                placeholder="69********"
-                title="Enter a 10-digit phone number without spaces or dashes."
-              />
-              <div class="form-text">
-                Είσάγεται έναν 10 ψήφιο αριθμό τηλεφώνου
-              </div>
-            </div>
-            <div class="mb-3">
-              <fieldset>
-                <legend>Διεύθυνση</legend>
-                <div class="mb-3">
-                  <label for="area" class="form-label">Περιοχή</label>
-                  <input
-                    placeholder="city"
-                    type="text"
-                    class="form-control"
-                    id="area"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="road" class="form-label">Δρόμος</label>
-                  <input
-                    placeholder="road"
-                    type="text"
-                    class="form-control"
-                    id="road"
-                  />
-                </div>
-              </fieldset>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btnSubmit btn btn-primary">
-                Υποβολή
-              </button>
-              <button type="reset" class="btnReset btn btn-secondary">
-                Επαναφορά
-              </button>
-            </div>
-          </form>
+
+    <div class="container mt-5">
+      <h2>Update User</h2>
+      <form id="updateUserForm" onsubmit="submitUpdateForm(); return false;">
+        <!-- Name field -->
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" class="form-control" id="name" maxlength="50" />
+          <!-- Example max length -->
         </div>
-      </div>
+
+        <!-- Surname field -->
+        <div class="form-group">
+          <label for="surname">Surname:</label>
+          <input type="text" class="form-control" id="surname" maxlength="50" />
+          <!-- Example max length -->
+        </div>
+
+        <!-- Email field -->
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            required
+            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+          />
+        </div>
+
+        <!-- Address area field -->
+        <div class="form-group">
+          <label for="area">Area:</label>
+          <input type="text" class="form-control" id="area" maxlength="100" />
+          <!-- Example max length -->
+        </div>
+
+        <!-- Address road field -->
+        <div class="form-group">
+          <label for="road">Road:</label>
+          <input type="text" class="form-control" id="road" maxlength="100" />
+          <!-- Example max length -->
+        </div>
+
+        <!-- Phone type field (optional) -->
+
+        <!-- Phone number field -->
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number:</label>
+          <input
+            type="tel"
+            class="form-control"
+            id="phoneNumber"
+            maxlength="20"
+            pattern="\+?\d{0,20}"
+          />
+          <!-- Allow up to 20 digits, optionally starting with + -->
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary">Update User</button>
+      </form>
     </div>
+    <div
+      id="updateAlert"
+      class="alert"
+      role="alert"
+      style="display: none"
+    ></div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
+
     <script
       src="https://code.jquery.com/jquery-3.6.4.min.js"
       integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
       crossorigin="anonymous"
     ></script>
-    <script src="../assets/js/user.create.js"></script>
+
+    <script src="../assets/js/userUpdateForm.js"></script>
   </body>
 </html>

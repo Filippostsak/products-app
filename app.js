@@ -28,11 +28,13 @@ app.use(
 // Import routes
 const user = require("./routes/user.route");
 const userProduct = require("./routes/user.products.routes");
+const products = require("./routes/product.route.js");
 
 app.use("/", express.static("files"));
 // Use routes
 app.use("/api/users", user);
 app.use("/api/user-products", userProduct);
+app.use("/api/products", products);
 
 // Setup Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument.options));
