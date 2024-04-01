@@ -40,9 +40,9 @@ $(document).ready(function () {
               url: "/api/products/" + productId,
               type: "DELETE",
               success: function (response) {
-                deleteButton.closest("tr").remove(); // Remove row from UI
+                deleteButton.closest("tr").remove();
                 console.log("Product deleted successfully:", response);
-                fetchProducts(); // Fetch products again after deletion
+                fetchProducts();
               },
               error: function (xhr, status, error) {
                 console.error("Error deleting product:", error);

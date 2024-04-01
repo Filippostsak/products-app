@@ -1,12 +1,10 @@
 $(document).ready(function () {
-  // Function to fetch product details by ID
   function fetchProductById(productId) {
     $.ajax({
       url: "/api/products/" + productId,
       type: "GET",
       dataType: "json",
       success: function (response) {
-        // Populate form fields with product details
         $("#productName").val(response.product);
         $("#cost").val(response.cost);
         $("#description").val(response.description);
@@ -18,20 +16,15 @@ $(document).ready(function () {
     });
   }
 
-  // Function to display notification
   function showNotification(message, alertType, redirectUrl = null) {
-    // Create dynamic Bootstrap alert div
     let alertDiv = $("<div>")
       .addClass("alert " + alertType)
       .attr("role", "alert")
       .text(message);
-    // Append alert div to container
     $("#notificationContainer").append(alertDiv);
-    // Hide alert after 2 seconds
     setTimeout(function () {
       alertDiv.fadeOut("slow", function () {
         $(this).remove();
-        // Redirect to provided URL after timeout
         if (redirectUrl) {
           window.location.href = redirectUrl;
         }
@@ -39,16 +32,13 @@ $(document).ready(function () {
     }, 2000);
   }
 
-  // Check if the URL contains a product ID parameter
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
 
-  // If a product ID is found in the URL, fetch its details
   if (productId) {
     fetchProductById(productId);
   }
 
-  // Submit the update product form
   $("#updateProductForm").submit(function (event) {
     event.preventDefault();
 
@@ -59,9 +49,8 @@ $(document).ready(function () {
       quantity: $("#quantity").val(),
     };
 
-    // Send PATCH request to update the product
     $.ajax({
-      url: "/api/products/" + productId, // Use the product ID in the URL
+      url: "/api/products/" + productId,
       type: "PATCH",
       contentType: "application/json",
       data: JSON.stringify(formData),
